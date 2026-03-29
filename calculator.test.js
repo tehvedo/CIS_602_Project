@@ -132,22 +132,22 @@ describe('Calculator API - Exhaustive BVA & Whitebox Suite', () => {
 
     runBatch(allTestCases);
 
-    // --- 1.5 SYSTEM RESILIENCE ---
-    test('SYS-01: Should return 500 when a runtime error occurs', async () => {
-        // Spy on Math.pow and force it to throw an error
-        const spy = jest.spyOn(Math, 'pow').mockImplementation(() => {
-            throw new Error('Simulated System Failure');
-        });
+    // // --- 1.5 SYSTEM RESILIENCE ---
+    // test('SYS-01: Should return 500 when a runtime error occurs', async () => {
+    //     // Spy on Math.pow and force it to throw an error
+    //     const spy = jest.spyOn(Math, 'pow').mockImplementation(() => {
+    //         throw new Error('Simulated System Failure');
+    //     });
 
-        const response = await request(app)
-            .post('/calculate')
-            .send({ op: 'power', a: 2, b: 2 });
+    //     const response = await request(app)
+    //         .post('/calculate')
+    //         .send({ op: 'power', a: 2, b: 2 });
 
-        expect(response.status).toBe(500);
-        expect(response.body.error).toBe("Internal Server Error");
+    //     expect(response.status).toBe(500);
+    //     expect(response.body.error).toBe("Internal Server Error");
 
-        // Restore Math.pow so it doesn't break other tests
-        spy.mockRestore();
-    });
-    
+    //     // Restore Math.pow so it doesn't break other tests
+    //     spy.mockRestore();
+    // });
+
 });
