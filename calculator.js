@@ -96,4 +96,12 @@ app.post('/calculate', (req, res) => {
     }
 });
 
+if (require.main === module) {
+    // Cloud servers provide the PORT variable; use 3000 as a local fallback
+    const PORT = process.env.PORT || 3000; 
+    app.listen(PORT, () => {
+        console.log(`Server is live at http://localhost:${PORT}`);
+    });
+}
+
 module.exports = app;
