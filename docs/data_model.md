@@ -1,62 +1,76 @@
 # Data Model and Schema
 
-This document specifies the entities, attributes, and data structures used by the Calculator API. Since this is a stateless API, the data model focuses on the schema of the request/response payloads and the internal representation of a calculation.
+This document specifies the request/response payloads and the stateless data handling logic used by the Calculator API.
 
 ---
 
-## 1. Request Schema
-The client sends a JSON object to the `/calculate` endpoint. This is the "Input Data Model."
+## 1. Input Data Model (Request)
+The API accepts a JSON object via a **POST** request to the `/calculate` endpoint. There is no persistent storage; the data exists only for the duration of the HTTP request.
 
-### Entity: `CalculationRequest`
+### Request Body Schema
 | Attribute | Type | Description | Required |
 | :--- | :--- | :--- | :--- |
-| `op` | String | The operation name (e.g., "add", "sqrt") | Yes |
-| `a` | Float | The primary operand | Yes |
-| `b` | Float | The secondary operand | Optional (ignored for `sqrt`) |
+| `op` | String | The operation name (e.g., "add", "subtract", "multiply", "divide", "sqrt", "power", "percent") | Yes |
+| `a` | Number | The first operand | Yes |
+| `b` | Number | The second operand | Required (except for `sqrt`) |
 
-**JSON Example:**
+**Example JSON Request:**
 ```json
 {
   "op": "add",
-  "a": 10.5,
-  "b": 5.0
+  "a": 10,
+  "b": 20
 }
 ```
 
 ---
 
-## 2. Response Schema
-The API returns a JSON object representing the result or an error.
+## 2. Output Data Model (Response)
+The API returns a JSON object. The structure of the response depends on the success or failure of the operation.
 
-### Entity: `CalculationResult`
+### Successful Response
+On success, the API returns a single key-value pair with a **200 OK** status.
+
 | Attribute | Type | Description |
 | :--- | :--- | :--- |
-| `result` | Float | The calculated numeric output |
+| `result` | Number | The numeric output of the calculation |
 
-### Entity: `ErrorResponse`
+**Example JSON Response:**
+```json
+{
+  "result": 30
+}
+```
+
+### Error Response
+If validation fails or a mathematical error occurs (e.g., division by zero), the API returns a descriptive error message with an appropriate HTTP status code (**400** or **422**).
+
 | Attribute | Type | Description |
 | :--- | :--- | :--- |
-| `error` | String | A descriptive message of the failure |
-| `code` | Integer | The HTTP status code equivalent |
+| `error` | String | A descriptive message explaining why the request failed |
+
+**Example JSON Error:**
+```json
+{
+  "error": "Division by zero"
+}
+```
 
 ---
 
-## 3. Internal Data Structure
-Internally, the application uses a structured object to manage the calculation lifecycle before sending it back to the user.
+## 3. Logical Flow
+The application follows a linear, stateless functional flow:
 
-### Class: `CalculationTask` (Internal)
-* **Attributes:**
-    * `id`: UUID (to track unique requests in CI/CD logs)
-    * `timestamp`: ISO8601 string
-    * `operation`: Function reference
-    * `status`: ["PENDING", "COMPLETED", "FAILED"]
+1.  **Validation:** The incoming JSON is checked for the existence of `op` and numeric values for `a` and `b`.
+2.  **Boundary Check:** Input values are verified to ensure they do not exceed system limits (e.g., values > 1,000,000).
+3.  **Execution:** The `calculator.js` module executes the requested operation.
+4.  **Serialization:** The resulting number is wrapped in a JSON object and sent as the response body.
 
 ---
 
-## 4. Logical Relationships
-1.  **Validation -> Calculation:** The `CalculationRequest` must be successfully validated against the **Application Specifications** before it is mapped to a `CalculationTask`.
-2.  **Transformation:** A successful `CalculationTask` always results in a `CalculationResult`.
-3.  **Exception Mapping:** Any boundary violation or math error transforms the task into an `ErrorResponse`.
+## 4. Architectural Note: Statelessness
+This API is strictly **stateless**.
 
-!!! info "Statelessness"
-    This data model is transient. No data is persisted to a database (MongoDB/SQL). Each request is independent, ensuring the application remains stateless for easier CI/CD deployment and testing.
+* **No Database:** There is no persistence layer (SQL/NoSQL).
+* **No Session:** The API does not track user state or previous calculations.
+* **Independence:** Each request is processed in isolation, which simplifies Whitebox testing and ensures consistent results across the CI/CD pipeline and Render cloud environment.
