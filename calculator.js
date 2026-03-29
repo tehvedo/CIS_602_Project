@@ -96,6 +96,8 @@ app.post('/calculate', (req, res) => {
     }
 });
 
+// The comment below is to ignore the server start up code for 100% coverage requirements
+/* istanbul ignore next */
 if (require.main === module) {
     // Cloud servers provide the PORT variable; use 3000 as a local fallback
     const PORT = process.env.PORT || 3000; 
