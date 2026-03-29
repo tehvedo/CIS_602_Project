@@ -1,0 +1,42 @@
+{
+  "name": "cis_602_project",
+  "version": "1.0.0",
+  "description": "Kevin Kochanek - CIS 602 Project for Option #2",
+  "main": "calculator.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tehvedo/CIS_602_Project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/tehvedo/CIS_602_Project/issues"
+  },
+  "homepage": "https://github.com/tehvedo/CIS_602_Project#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "jest": "^30.3.0",
+    "supertest": "^7.2.2"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": 100
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+site_name: Calculator API Documentation
+site_description: Documentation for CIS 602 Project - Option 2
+theme:
+  name: material
+
+nav:
+  - Home: index.md
+  - Application Specifications: specs.md
+  - Usage: usage.md
+  - Data Model & Schema: data_model.md
+  - Testing Methods: testing.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
