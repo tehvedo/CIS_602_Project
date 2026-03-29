@@ -24,6 +24,7 @@ We focus on the following key areas:
 * **[Usage Guide](usage.md):** Instructions on how to interact with the API endpoints.
 * **[Specifications](specs.md):** Detailed requirements, input ranges, and expected behaviors.
 * **[Data Model](data_model.md):** Schema definitions for requests and responses.
+* **[Testing Methods](testing.md):** Defines the comprehensive test suite required to satisfy the requirements for 100% Whitebox and Blackbox coverage.
 
 ---
 
