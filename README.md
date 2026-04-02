@@ -5,6 +5,12 @@ Kevin Kochanek - CIS 602 Project for Option #2
 This project implements a RESTful Calculator API as part of the CIS 602 Software Testing and Quality Assurance curriculum. The system is built with Node.js and features a robust CI/CD pipeline, comprehensive automated testing, and a live production deployment on the Render Cloud Platform.
 
 ---
+## Getting Started
+
+1. **Clone the repo:** `git clone https://github.com/tehvedo/CIS_602_Project.git`
+2. **Install dependencies:** `npm install`
+3. **Run tests:** `npm test`
+4. **Start local server:** `node .\calculator.js`
 
 ## Project Overview
 
@@ -50,6 +56,14 @@ Detailed technical documentation and testing proofs are located in the repositor
 * **Usage Guide:** See `docs/usage.md` for a full list of supported operations and JSON schema requirements.
 * **Testing Methodology:** See `docs/testing.md` for details on Whitebox path testing, Blackbox equivalence partitioning, and JUnit/Istanbul coverage reports.
 * **GitHub Repository:** [https://github.com/tehvedo/CIS_602_Project.git]
+
+## Local Documentation
+
+This project uses MkDocs for documentation. To view it locally:
+
+1. **Install MkDocs:** `pip install mkdocs-material`
+2. **Launch server:** `mkdocs serve`
+3. **View at:** `http://127.0.0.1:8000`
 
 ---
 
